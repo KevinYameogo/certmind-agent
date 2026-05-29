@@ -10,7 +10,7 @@ Work through these in order — each builds on the previous.
 
 ## SPRINT 1 — Project Skeleton (June 4–5)
 
-### [ ] 1.1 Initialise Python project
+### [x] 1.1 Initialise Python project
 
 ```bash
 mkdir certmind-agent && cd certmind-agent
@@ -18,13 +18,14 @@ git init
 python -m venv .venv && source .venv/bin/activate
 ```
 
-### [ ] 1.2 Create requirements.txt with these dependencies
+### [x] 1.2 Create requirements.txt with these dependencies
 
 ```
 azure-ai-projects>=1.0.0
 azure-identity>=1.15.0
 azure-ai-inference>=1.0.0
-anthropic>=0.40.0
+azure-search-documents>=11.6.0
+openai>=1.0.0
 python-dotenv>=1.0.0
 opentelemetry-sdk>=1.20.0
 azure-monitor-opentelemetry>=1.0.0
@@ -32,7 +33,7 @@ requests>=2.31.0
 rich>=13.0.0   # Pretty terminal output for demo
 ```
 
-### [ ] 1.3 Create .env.example (never commit the real .env!)
+### [x] 1.3 Create .env.example (never commit the real .env!)
 
 ```
 AZURE_AI_PROJECT_ENDPOINT=your-project-endpoint-here
@@ -43,7 +44,7 @@ AZURE_SUBSCRIPTION_ID=your-sub-id
 AZURE_RESOURCE_GROUP=certmind-rg
 ```
 
-### [ ] 1.4 Create .gitignore
+### [x] 1.4 Create .gitignore
 
 ```
 .venv/
@@ -53,7 +54,7 @@ __pycache__/
 .DS_Store
 ```
 
-### [ ] 1.5 Upload synthetic data files to repo
+### [x] 1.5 Upload synthetic data files to repo
 
 - Copy all files from `synthetic-data/` folder (already written — see that folder)
 - Commit them: `git add synthetic-data/ && git commit -m "feat: add synthetic data"`
@@ -74,14 +75,14 @@ git push -u origin main
 ### [ ] 2.1 Write setup_foundry_iq.py
 
 - Connects to Azure using `DefaultAzureCredential`
-- Uploads the 4 synthetic docs to your Foundry IQ knowledge base
+- Uploads the 3 markdown knowledge docs to your Foundry IQ knowledge base
 - Prints confirmation with document IDs
 - 💡 Prompt for Copilot: _"Write a Python script using azure-ai-projects to upload markdown files to a Foundry IQ knowledge base by ID"_
 
 ### [ ] 2.2 Run setup script and verify in Foundry portal
 
 - Run: `python scripts/setup_foundry_iq.py`
-- Check Foundry portal → Knowledge bases → all 4 docs indexed
+- Check Foundry portal → Knowledge bases → all 3 markdown docs indexed
 - ✅ Gate: Do not proceed until docs are indexed
 
 ### [ ] 2.3 Write base_agent.py (shared base class)
@@ -89,10 +90,10 @@ git push -u origin main
 All agents inherit from this. It should:
 
 - Connect to Foundry using the project endpoint
-- Initialise Claude Opus 4.6 as the model client
+- Initialise GPT-5-mini as the model client
 - Provide a `run(prompt: str) -> str` method
 - Include basic error handling and logging
-- 💡 Prompt: _"Write a Python base class for a Microsoft Foundry agent using azure-ai-projects and the Claude Opus 4.6 deployment"_
+- 💡 Prompt: _"Write a Python base class for a Microsoft Foundry agent using azure-ai-projects and the GPT-5-mini deployment"_
 
 ### [ ] 2.4 Write learning_path_curator.py
 
