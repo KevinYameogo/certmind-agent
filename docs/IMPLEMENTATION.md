@@ -216,7 +216,7 @@ print(result)
 
 ## SPRINT 6 — Manager Insights + Orchestrator (June 9–10)
 
-### [ ] 6.1 Write manager_insights.py
+### [x] 6.1 Write manager_insights.py
 
 - Inherits from BaseAgent
 - Takes: list of employee IDs (a team)
@@ -228,7 +228,7 @@ print(result)
 - **Privacy rule**: Never surface individual scores — only team aggregates
 - 💡 Prompt: _"Write a ManagerInsightsAgent that reads from Fabric IQ semantic data to produce a team-level certification readiness dashboard without exposing individual employee scores"_
 
-### [ ] 6.2 Write orchestrator.py ⭐ (The star of your demo)
+### [x] 6.2 Write orchestrator.py ⭐ (The star of your demo)
 
 This is the top-level Planner–Executor agent. It should:
 
@@ -240,7 +240,7 @@ This is the top-level Planner–Executor agent. It should:
 - Log every step with trace IDs for observability
 - 💡 Prompt: _"Write an OrchestratorAgent that implements the Planner-Executor pattern: plans a multi-step workflow, dispatches to specialist agents, passes results through a CriticVerifier, and manages the study-assess-loop feedback cycle. Include OpenTelemetry trace logging."_
 
-### [ ] 6.3 End-to-end test
+### [x] 6.3 End-to-end test
 
 ```python
 orchestrator = OrchestratorAgent()
