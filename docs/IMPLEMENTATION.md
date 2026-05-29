@@ -159,7 +159,7 @@ print(result)
 
 ## SPRINT 4 — Engagement Agent + Work IQ (June 7–8)
 
-### [ ] 4.1 Write engagement_agent.py
+### [x] 4.1 Write engagement_agent.py
 
 - Inherits from BaseAgent
 - Takes: work signals (meeting_hours_per_week, focus_hours_per_week, preferred_learning_slot)
@@ -170,7 +170,7 @@ print(result)
 - Returns: personalised engagement recommendations and suggested study slots
 - 💡 Prompt: _"Write an EngagementAgent that uses Work IQ signals (meeting load, focus time, preferred slots) to generate personalised, non-intrusive study reminders that adapt to the learner's work rhythm"_
 
-### [ ] 4.2 Test Engagement Agent
+### [x] 4.2 Test Engagement Agent
 
 ```python
 engagement = EngagementAgent()
