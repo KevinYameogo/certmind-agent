@@ -122,7 +122,7 @@ print(result)
 
 ## SPRINT 3 — Study Plan Generator + Fabric IQ (June 6–7)
 
-### [ ] 3.1 Model the Fabric IQ semantic ontology
+### [x] 3.1 Model the Fabric IQ semantic ontology
 
 Entities to model:
 
@@ -134,7 +134,7 @@ Entities to model:
 
 Create this as a JSON schema in `docs/fabric_iq_ontology.json`
 
-### [ ] 3.2 Write study_plan_generator.py
+### [x] 3.2 Write study_plan_generator.py
 
 - Inherits from BaseAgent
 - Takes: learner profile (from synthetic data), certification target, work signals
@@ -145,7 +145,7 @@ Create this as a JSON schema in `docs/fabric_iq_ontology.json`
 - Returns: a structured weekly study plan with milestones
 - 💡 Prompt: _"Write a StudyPlanGeneratorAgent that uses a Fabric IQ semantic model to generate a capacity-aware study schedule, accounting for meeting hours and focus windows from work signals"_
 
-### [ ] 3.3 Test Study Plan Generator
+### [x] 3.3 Test Study Plan Generator
 
 ```python
 planner = StudyPlanGeneratorAgent()

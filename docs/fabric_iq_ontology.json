@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CertMind Fabric IQ Ontology",
+  "description": "Semantic model for certification readiness, capacity-aware study planning, and manager insight generation.",
+  "version": "1.0.0",
+  "fabric_alignment": {
+    "model_type": "semantic_model",
+    "pattern": "business entities with relationships, measures, and reusable metadata",
+    "source_documents": [
+      "synthetic-data/learner_profiles.json",
+      "synthetic-data/work_signals.json",
+      "synthetic-data/certification_catalog.json"
+    ]
+  },
+  "entities": {
+    "Employee": {
+      "primary_key": "employee_id",
+      "attributes": {
+        "employee_id": "string",
+        "learner_id": "string",
+        "role": "string",
+        "certification_target": "string",
+        "current_skills": "string[]",
+        "practice_score_avg": "number",
+        "hours_studied": "number",
+        "status": "string"
+      },
+      "relationships": [
+        {
+          "name": "has_role",
+          "target_entity": "Role",
+          "cardinality": "many-to-one",
+          "source_field": "role",
+          "target_field": "name"
+        },
+        {
+          "name": "targets_certification",
+          "target_entity": "Certification",
+          "cardinality": "many-to-one",
+          "source_field": "certification_target",
+          "target_field": "id"
+        },
+        {
+          "name": "has_work_signal",
+          "target_entity": "WorkSignal",
+          "cardinality": "one-to-one",
+          "source_field": "employee_id",
+          "target_field": "employee_id"
+        }
+      ]
+    },
+    "Certification": {
+      "primary_key": "id",
+      "attributes": {
+        "id": "string",
+        "name": "string",
+        "level": "string",
+        "skills": "string[]",
+        "recommended_hours": "number",
+        "pass_threshold_score": "number",
+        "prerequisites": "string[]",
+        "target_roles": "string[]"
+      },
+      "relationships": [
+        {
+          "name": "has_skill_requirements",
+          "target_entity": "SkillGap",
+          "cardinality": "one-to-many",
+          "source_field": "skills",
+          "target_field": "missing_skills"
+        }
+      ]
+    },
+    "Role": {
+      "primary_key": "name",
+      "attributes": {
+        "name": "string",
+        "required_certifications": "string[]",
+        "skill_areas": "string[]"
+      },
+      "relationships": [
+        {
+          "name": "requires_certification",
+          "target_entity": "Certification",
+          "cardinality": "many-to-many",
+          "source_field": "required_certifications",
+          "target_field": "id"
+        }
+      ]
+    },
+    "WorkSignal": {
+      "primary_key": "employee_id",
+      "attributes": {
+        "employee_id": "string",
+        "meeting_hours_per_week": "number",
+        "focus_hours_per_week": "number",
+        "preferred_learning_slot": "string",
+        "avg_daily_focus_blocks": "number",
+        "peak_meeting_days": "string[]",
+        "low_meeting_days": "string[]",
+        "collaboration_intensity": "string",
+        "study_streak_days": "number"
+      }
+    },
+    "SkillGap": {
+      "primary_key": "employee_id_certification_id",
+      "attributes": {
+        "employee_id": "string",
+        "certification_id": "string",
+        "missing_skills": "string[]",
+        "covered_skills": "string[]",
+        "gap_count": "number",
+        "gap_ratio": "number"
+      },
+      "relationships": [
+        {
+          "name": "belongs_to_employee",
+          "target_entity": "Employee",
+          "cardinality": "many-to-one",
+          "source_field": "employee_id",
+          "target_field": "employee_id"
+        },
+        {
+          "name": "belongs_to_certification",
+          "target_entity": "Certification",
+          "cardinality": "many-to-one",
+          "source_field": "certification_id",
+          "target_field": "id"
+        }
+      ]
+    },
+    "ReadinessScore": {
+      "primary_key": "employee_id_certification_id",
+      "attributes": {
+        "employee_id": "string",
+        "certification_id": "string",
+        "practice_component": "number",
+        "study_completion_component": "number",
+        "skill_gap_penalty": "number",
+        "score": "number",
+        "classification": "string"
+      },
+      "measure": "score = min(100, max(0, practice_score_avg * 0.7 + min(hours_studied / recommended_hours, 1) * 100 * 0.3 - skill_gap_penalty))"
+    }
+  },
+  "measures": {
+    "remaining_study_hours": "max(recommended_hours - hours_studied, recommended_hours * 0.25 if practice_score_avg < pass_threshold_score else 0)",
+    "weekly_study_capacity": "min(focus_hours_per_week * 0.4, recommended_daily_minutes * study_days_per_week / 60)",
+    "recommended_daily_minutes": "derived from meeting_hours_per_week and collaboration_intensity",
+    "readiness_classification": "ready >= 75, near_ready >= 65, at_risk < 65"
+  }
+}

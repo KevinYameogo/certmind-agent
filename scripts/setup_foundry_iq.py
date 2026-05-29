@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import os
+from logging import getLogger
 from pathlib import Path
+from urllib.parse import urlparse
 
 try:
     from dotenv import load_dotenv
@@ -49,6 +51,11 @@ def verify_blob_container() -> list[str] | None:
         print("Skipped Blob verification: AZURE_STORAGE_ACCOUNT_URL is not set.")
         return None
 
+    account_url, container_name = _normalise_blob_settings(
+        account_url=account_url,
+        container_name=container_name,
+    )
+
     try:
         from azure.identity import DefaultAzureCredential
         from azure.storage.blob import BlobServiceClient
@@ -58,18 +65,36 @@ def verify_blob_container() -> list[str] | None:
             "pip install azure-storage-blob"
         ) from exc
 
-    blob_service = BlobServiceClient(
-        account_url=account_url,
-        credential=DefaultAzureCredential(),
-    )
-    container = blob_service.get_container_client(container_name)
-    blob_names = {blob.name for blob in container.list_blobs()}
+    try:
+        getLogger("azure.identity").setLevel("CRITICAL")
+        blob_service = BlobServiceClient(
+            account_url=account_url,
+            credential=DefaultAzureCredential(),
+        )
+        container = blob_service.get_container_client(container_name)
+        blob_names = {blob.name for blob in container.list_blobs()}
+    except Exception as exc:
+        print("Skipped Blob verification: Azure authentication is not available locally.")
+        print("To enable it, install Azure CLI and run `az login`, or sign in through VS Code Azure tools.")
+        print(f"Blob verification detail: {exc.__class__.__name__}: {exc}")
+        return None
+
     missing = [name for name in KNOWLEDGE_DOCS if name not in blob_names]
     if missing:
         raise FileNotFoundError(
             f"Container {container_name!r} is missing: {', '.join(missing)}"
         )
     return list(KNOWLEDGE_DOCS)
+
+
+def _normalise_blob_settings(account_url: str, container_name: str) -> tuple[str, str]:
+    """Support either a storage account URL or a full container URL."""
+    parsed = urlparse(account_url)
+    path_parts = [part for part in parsed.path.split("/") if part]
+    if path_parts:
+        container_name = path_parts[0]
+        account_url = f"{parsed.scheme}://{parsed.netloc}"
+    return account_url.rstrip("/"), container_name
 
 
 def main() -> None:
