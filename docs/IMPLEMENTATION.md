@@ -184,7 +184,7 @@ print(result)
 
 ## SPRINT 5 — Critic/Verifier + Assessment Agent (June 8–9)
 
-### [ ] 5.1 Write critic_verifier.py ⭐ (This is your differentiator)
+### [x] 5.1 Write critic_verifier.py ⭐ (This is your differentiator)
 
 - Inherits from BaseAgent
 - Takes: any agent output + the original question
@@ -197,7 +197,7 @@ print(result)
 - If approved=False, the orchestrator re-runs the originating agent
 - 💡 Prompt: _"Write a CriticVerifierAgent that reviews another agent's output and checks for: unsupported claims, hallucinated certification codes, irrelevant answers, and inappropriate content. Return a structured verdict with specific issues listed."_
 
-### [ ] 5.2 Write assessment_agent.py
+### [x] 5.2 Write assessment_agent.py
 
 - Inherits from BaseAgent
 - Takes: certification target, learner's study history
@@ -207,7 +207,7 @@ print(result)
 - Loops back to study plan if score < 75
 - 💡 Prompt: _"Write an AssessmentAgent that generates cited quiz questions from a Foundry IQ knowledge base, evaluates answers, returns a readiness score, and recommends next steps based on a Fabric IQ pass threshold"_
 
-### [ ] 5.3 Connect Critic/Verifier to Assessment Agent
+### [x] 5.3 Connect Critic/Verifier to Assessment Agent
 
 - Assessment Agent output → Critic reviews it → only approved output reaches the learner
   ✅ **Sprint 5 done when**: Assessment loop works with critic gating output
