@@ -1,0 +1,57 @@
+[
+  {
+    "learner_id": "L-1001",
+    "employee_id": "EMP-001",
+    "role": "Cloud Engineer",
+    "certification_target": "AZ-204",
+    "current_skills": ["Python", "REST APIs", "Azure Basics"],
+    "practice_score_avg": 67,
+    "hours_studied": 18,
+    "exam_outcome": null,
+    "status": "in_progress"
+  },
+  {
+    "learner_id": "L-1002",
+    "employee_id": "EMP-002",
+    "role": "DevOps Engineer",
+    "certification_target": "AZ-400",
+    "current_skills": ["CI/CD", "GitHub Actions", "Docker"],
+    "practice_score_avg": 82,
+    "hours_studied": 24,
+    "exam_outcome": "Pass",
+    "status": "certified"
+  },
+  {
+    "learner_id": "L-1003",
+    "employee_id": "EMP-003",
+    "role": "Data Engineer",
+    "certification_target": "DP-203",
+    "current_skills": ["SQL", "Python", "ETL Pipelines"],
+    "practice_score_avg": 74,
+    "hours_studied": 20,
+    "exam_outcome": "Pass",
+    "status": "certified"
+  },
+  {
+    "learner_id": "L-1004",
+    "employee_id": "EMP-004",
+    "role": "Cloud Engineer",
+    "certification_target": "AZ-305",
+    "current_skills": ["AZ-204 certified", "Networking", "Security basics"],
+    "practice_score_avg": 59,
+    "hours_studied": 10,
+    "exam_outcome": null,
+    "status": "at_risk"
+  },
+  {
+    "learner_id": "L-1005",
+    "employee_id": "EMP-005",
+    "role": "Security Engineer",
+    "certification_target": "AZ-500",
+    "current_skills": ["Firewalls", "Identity", "Azure AD"],
+    "practice_score_avg": 78,
+    "hours_studied": 22,
+    "exam_outcome": null,
+    "status": "on_track"
+  }
+]

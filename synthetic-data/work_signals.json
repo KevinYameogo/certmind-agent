@@ -1,0 +1,57 @@
+[
+  {
+    "employee_id": "EMP-001",
+    "meeting_hours_per_week": 22,
+    "focus_hours_per_week": 10,
+    "preferred_learning_slot": "Morning",
+    "avg_daily_focus_blocks": 2,
+    "peak_meeting_days": ["Monday", "Wednesday", "Friday"],
+    "low_meeting_days": ["Tuesday", "Thursday"],
+    "collaboration_intensity": "HIGH",
+    "study_streak_days": 3
+  },
+  {
+    "employee_id": "EMP-002",
+    "meeting_hours_per_week": 15,
+    "focus_hours_per_week": 18,
+    "preferred_learning_slot": "Afternoon",
+    "avg_daily_focus_blocks": 3,
+    "peak_meeting_days": ["Monday"],
+    "low_meeting_days": ["Wednesday", "Thursday", "Friday"],
+    "collaboration_intensity": "MEDIUM",
+    "study_streak_days": 7
+  },
+  {
+    "employee_id": "EMP-003",
+    "meeting_hours_per_week": 10,
+    "focus_hours_per_week": 25,
+    "preferred_learning_slot": "Morning",
+    "avg_daily_focus_blocks": 5,
+    "peak_meeting_days": ["Tuesday"],
+    "low_meeting_days": ["Monday", "Wednesday", "Thursday", "Friday"],
+    "collaboration_intensity": "LOW",
+    "study_streak_days": 14
+  },
+  {
+    "employee_id": "EMP-004",
+    "meeting_hours_per_week": 28,
+    "focus_hours_per_week": 6,
+    "preferred_learning_slot": "Evening",
+    "avg_daily_focus_blocks": 1,
+    "peak_meeting_days": ["Monday", "Tuesday", "Wednesday", "Thursday"],
+    "low_meeting_days": ["Friday"],
+    "collaboration_intensity": "VERY_HIGH",
+    "study_streak_days": 0
+  },
+  {
+    "employee_id": "EMP-005",
+    "meeting_hours_per_week": 18,
+    "focus_hours_per_week": 15,
+    "preferred_learning_slot": "Morning",
+    "avg_daily_focus_blocks": 3,
+    "peak_meeting_days": ["Monday", "Thursday"],
+    "low_meeting_days": ["Tuesday", "Wednesday", "Friday"],
+    "collaboration_intensity": "MEDIUM",
+    "study_streak_days": 5
+  }
+]

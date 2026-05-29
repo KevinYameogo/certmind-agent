@@ -1,0 +1,112 @@
+{
+  "certifications": [
+    {
+      "id": "AZ-204",
+      "name": "Developing Solutions for Microsoft Azure",
+      "level": "Associate",
+      "skills": [
+        "Azure Functions",
+        "Blob Storage",
+        "Cosmos DB",
+        "API Management",
+        "Azure App Service",
+        "Azure Cache for Redis"
+      ],
+      "recommended_hours": 20,
+      "pass_threshold_score": 75,
+      "prerequisites": [],
+      "target_roles": [
+        "Cloud Engineer",
+        "Software Engineer",
+        "Full Stack Developer"
+      ]
+    },
+    {
+      "id": "AZ-305",
+      "name": "Designing Azure Infrastructure Solutions",
+      "level": "Expert",
+      "skills": [
+        "Networking",
+        "Identity",
+        "Data Storage",
+        "Business Continuity",
+        "Infrastructure",
+        "Migration"
+      ],
+      "recommended_hours": 30,
+      "pass_threshold_score": 75,
+      "prerequisites": ["AZ-204"],
+      "target_roles": ["Cloud Engineer", "Solutions Architect"]
+    },
+    {
+      "id": "AZ-400",
+      "name": "Designing and Implementing DevOps Solutions",
+      "level": "Expert",
+      "skills": [
+        "CI/CD",
+        "Monitoring",
+        "GitHub Actions",
+        "Azure Pipelines",
+        "Infrastructure as Code",
+        "Security in DevOps"
+      ],
+      "recommended_hours": 25,
+      "pass_threshold_score": 75,
+      "prerequisites": [],
+      "target_roles": ["DevOps Engineer", "Site Reliability Engineer"]
+    },
+    {
+      "id": "DP-203",
+      "name": "Data Engineering on Microsoft Azure",
+      "level": "Associate",
+      "skills": [
+        "Azure Data Factory",
+        "Azure Synapse",
+        "Azure Databricks",
+        "Stream Analytics",
+        "Data Lake Storage"
+      ],
+      "recommended_hours": 22,
+      "pass_threshold_score": 75,
+      "prerequisites": [],
+      "target_roles": ["Data Engineer", "Analytics Engineer"]
+    },
+    {
+      "id": "AZ-500",
+      "name": "Microsoft Azure Security Technologies",
+      "level": "Associate",
+      "skills": [
+        "Identity Management",
+        "Platform Protection",
+        "Security Operations",
+        "Data and Application Security"
+      ],
+      "recommended_hours": 24,
+      "pass_threshold_score": 75,
+      "prerequisites": [],
+      "target_roles": ["Security Engineer", "Cloud Engineer"]
+    }
+  ],
+  "role_certification_map": {
+    "Cloud Engineer": {
+      "primary": "AZ-204",
+      "secondary": "AZ-305",
+      "optional": "AZ-500"
+    },
+    "DevOps Engineer": {
+      "primary": "AZ-400",
+      "secondary": null,
+      "optional": "AZ-204"
+    },
+    "Data Engineer": {
+      "primary": "DP-203",
+      "secondary": null,
+      "optional": "AZ-204"
+    },
+    "Security Engineer": {
+      "primary": "AZ-500",
+      "secondary": null,
+      "optional": "AZ-305"
+    }
+  }
+}
