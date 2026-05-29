@@ -285,6 +285,8 @@ The system implements three Microsoft IQ intelligence layers, a Critic/Verifier 
 
 ## System Flow Diagram
 
+![](/docs/assets/architecture.png.png)
+
 ```
 User Request (Natural Language)
          │
@@ -393,7 +395,7 @@ synthetic-data/
 
 | Component      | Technology                                    |
 | -------------- | --------------------------------------------- |
-| Model          | GPT-4o via Microsoft Foundry                  |
+| Model          | GPT-5-mini via Microsoft Foundry                  |
 | Agent SDK      | azure-ai-projects + Microsoft Agent Framework |
 | Grounding      | Foundry IQ (Azure AI Search backend)          |
 | Semantic layer | Fabric IQ                                     |
@@ -412,7 +414,7 @@ synthetic-data/
 | Variable                                | Used By                            |
 | --------------------------------------- | ---------------------------------- |
 | `AZURE_AI_PROJECT_ENDPOINT`             | All agents (Foundry connection)    |
-| `AZURE_AI_MODEL_DEPLOYMENT`             | All agents (= `GPT-4o`)            |
+| `AZURE_AI_MODEL_DEPLOYMENT`             | All agents (= `GPT-5-mini`)            |
 | `FOUNDRY_IQ_KNOWLEDGE_BASE_ID`          | Curator, Assessment, Critic agents |
 | `MICROSOFT_LEARN_MCP_URL`               | Learning Path Curator              |
 | `AZURE_SUBSCRIPTION_ID`                 | Fabric IQ connection               |

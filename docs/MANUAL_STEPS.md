@@ -7,42 +7,40 @@ Each one is a gate — don't skip ahead.
 
 ## PHASE 1 — Accounts & Access (Do This NOW, before June 4)
 
-### [ ] 1. Create a Microsoft Azure Account
+### [x] 1. Create a Microsoft Azure Account
 
 - Go to https://azure.microsoft.com/free
 - Sign up with a personal Microsoft account
-- **Important**: The free $200 trial is sufficient — GPT-4o works on the Azure free trial
-- After the free trial activates, **upgrade to Pay-As-You-Go** immediately
-  - Go to Azure Portal → Subscriptions → Upgrade
-  - Add a credit card (you won't be charged much for a hackathon prototype)
-- ✅ Done when: You have an active Pay-As-You-Go Azure subscription
+- The free $200 credit is sufficient for the entire hackathon using GPT-5-mini — no upgrade needed
+- 💡 Only upgrade to Pay-As-You-Go if your $200 credit runs out, which is unlikely for a 10-day prototype
+- ✅ Done when: You have an active Azure free trial account
 
-### [ ] 2. Create a Microsoft Foundry Project
+### [x] 2. Create a Microsoft Foundry Project
 
 - Go to https://ai.azure.com
 - Click "New project"
 - Name it: `certmind-agent`
 - Select your Azure subscription and a resource group (create one called `certmind-rg`)
-- Choose region: **East US** or **West Europe** (best GPT-4o availability)
+- Choose region: **East US** or **West Europe** (best GPT-5-mini availability)
 - ✅ Done when: You see your Foundry project dashboard at ai.azure.com
 
-### [ ] 3. Deploy GPT-4o in Foundry
+### [x] 3. Deploy GPT-5-mini in Foundry
 
 - Inside your Foundry project → go to "Models" → "Model catalog"
-- Search for `gpt-4o`
+- Search for `gpt-5-mini`
 - Click "Deploy" → choose "Global Standard"
-- Name the deployment: `gpt-4o`
+- Name the deployment: `gpt-5-mini`
 - ✅ Done when: Deployment shows status "Succeeded"
-- 💡 Note: GPT-4o works with the Azure free trial — no paid subscription needed
+- 💡 Note: GPT-5-mini works with the Azure free trial — no paid subscription needed
 
-### [ ] 4. Get Your Project Endpoint
+### [x] 4. Get Your Project Endpoint
 
 - In your Foundry project → Settings → copy the **Project endpoint URL**
 - It looks like: `https://YOUR-PROJECT.services.ai.azure.com/...`
 - Put this in your `.env` file as `AZURE_AI_PROJECT_ENDPOINT`
 - ✅ Done when: You have the endpoint saved locally (NOT committed to GitHub)
 
-### [ ] 5. Create a GitHub Repository
+### [x] 5. Create a GitHub Repository
 
 - Go to https://github.com/new
 - Name: `certmind-agent`
@@ -50,7 +48,7 @@ Each one is a gate — don't skip ahead.
 - Don't initialise with README (you'll push the one from this project)
 - ✅ Done when: Empty public repo exists at github.com/YOUR_USERNAME/certmind-agent
 
-### [ ] 6. Register on Hackathon Platform
+### [x] 6. Register on Hackathon Platform
 
 - Go to the Agents League hackathon page
 - Click Register (if not already done)
@@ -148,5 +146,5 @@ Each one is a gate — don't skip ahead.
 ## 💡 Tips
 
 - Do Phase 1 steps **today** — Azure setup can take time to propagate
-- GPT-4o works on the Azure free trial — your $200 credit covers the full hackathon build at reasonable usage
+- GPT-5-mini works on the Azure free trial — your $200 credit covers the full hackathon build at reasonable usage
 - Keep sharing on Discord — community vote (10%) can be the difference between winning and not

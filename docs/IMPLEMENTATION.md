@@ -36,7 +36,7 @@ rich>=13.0.0   # Pretty terminal output for demo
 
 ```
 AZURE_AI_PROJECT_ENDPOINT=your-project-endpoint-here
-AZURE_AI_MODEL_DEPLOYMENT=claude-opus-46
+AZURE_AI_MODEL_DEPLOYMENT=gpt-5-mini
 FOUNDRY_IQ_KNOWLEDGE_BASE_ID=your-kb-id-here
 MICROSOFT_LEARN_MCP_URL=your-mcp-url-here
 AZURE_SUBSCRIPTION_ID=your-sub-id

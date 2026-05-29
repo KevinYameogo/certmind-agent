@@ -12,7 +12,7 @@
 
 CertMind is a multi-agent enterprise learning system that helps organisations manage internal team certification programmes. It combines grounded AI retrieval, contextual work signals, and semantic business understanding to create capacity-aware, personalised certification coaching — for both individual learners and their managers.
 
-Built entirely on Microsoft Foundry using **GPT-4o** as the reasoning backbone, CertMind demonstrates how multi-step reasoning agents can operate safely and reliably at enterprise scale.
+Built entirely on Microsoft Foundry using **GPT-5-mini** as the reasoning backbone, CertMind demonstrates how multi-step reasoning agents can operate safely and reliably at enterprise scale.
 
 > ⚠️ All data used in this project is **synthetic and fictional**. No real employee data, PII, or confidential information is included anywhere in this repository.
 
@@ -46,7 +46,7 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full system diagram a
 
 ## 🧰 Tech Stack
 
-- **Model**: GPT-4o via Microsoft Foundry (Azure free trial compatible)
+- **Model**: GPT-5-mini via Microsoft Foundry (Azure free trial compatible)
 - **Orchestration**: Microsoft Agent Framework + Foundry Agent Service
 - **Grounding**: Foundry IQ (Azure AI Search backend)
 - **Semantic layer**: Fabric IQ
@@ -96,7 +96,7 @@ certmind-agent/
 ### Prerequisites
 
 - Python 3.11+
-- Azure subscription (free trial works — $200 credit covers GPT-4o usage)
+- Azure subscription (free trial works — $200 credit covers GPT-5-mini usage)
 - Microsoft Foundry project created
 - VS Code + GitHub Copilot
 
