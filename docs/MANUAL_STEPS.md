@@ -58,27 +58,30 @@ Each one is a gate — don't skip ahead.
 
 ## PHASE 2 — Azure Services Setup (Do before June 7)
 
-### [ ] 7. Set Up Foundry IQ Knowledge Base
+### [x] 7. Set Up Foundry IQ Knowledge Base
 
 - In your Foundry project → go to "Foundry IQ" or "Knowledge bases"
 - Click "New knowledge base" → name it `certmind-knowledge`
-- Upload all files from `synthetic-data/` folder:
+- Upload only the 3 markdown knowledge documents from `synthetic-data/`:
   - `cert_guide.md`
   - `team_learning_report.md`
   - `workload_insights.md`
+- Keep the 3 JSON files in the code repo; agents load them directly:
+  - `learner_profiles.json`
+  - `work_signals.json`
   - `certification_catalog.json`
 - Wait for indexing to complete (may take 5–15 minutes)
 - Copy the **Knowledge base ID** — you'll need it in agent configs
-- ✅ Done when: All 4 docs show "Indexed" status in Foundry IQ
+- ✅ Done when: All 3 markdown docs show "Indexed" status in Foundry IQ
 
-### [ ] 8. Enable Microsoft Learn MCP Server
+### [x] 8. Enable Microsoft Learn MCP Server
 
-- Go to https://github.com/microsoft/learn-mcp-server
-- Follow the setup instructions to get the MCP server URL
-- Add the MCP server URL to your `.env` as `MICROSOFT_LEARN_MCP_URL`
+- Use the remote Microsoft Learn MCP Server endpoint; it is free and requires no authentication
+- Add this endpoint to your `.env` as `MICROSOFT_LEARN_MCP_URL`:
+  - `https://learn.microsoft.com/api/mcp`
 - ✅ Done when: You can query Microsoft Learn content from your agent
 
-### [ ] 9. Set Up Azure Container Registry (for Hosted Agent deployment)
+### [x] 9. Set Up Azure Container Registry (for Hosted Agent deployment)
 
 - In Azure Portal → search "Container Registry" → Create
 - Name: `certmindacr` (must be globally unique, add random suffix if needed)
@@ -86,7 +89,7 @@ Each one is a gate — don't skip ahead.
 - Same resource group: `certmind-rg`
 - ✅ Done when: ACR is created and you can see it in your resource group
 
-### [ ] 10. Set Up Microsoft Fabric Trial (for Fabric IQ)
+### [x] 10. Set Up Microsoft Fabric Trial (for Fabric IQ)
 
 - Go to https://app.fabric.microsoft.com
 - Start a **60-day free trial**
@@ -97,7 +100,7 @@ Each one is a gate — don't skip ahead.
 
 ## PHASE 3 — Discord & Community (Do before June 8)
 
-### [ ] 11. Join the Agents League Discord
+### [x] 11. Join the Agents League Discord
 
 - Go to https://aka.ms/agentsleague/discord
 - Join the `#agentsleague` channel
