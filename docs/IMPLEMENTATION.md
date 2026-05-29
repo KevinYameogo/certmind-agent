@@ -23,7 +23,7 @@ python -m venv .venv && source .venv/bin/activate
 ```
 azure-ai-projects>=1.0.0
 azure-identity>=1.15.0
-azure-ai-inference>=1.0.0
+azure-ai-inference>=1.0.0b9
 azure-search-documents>=11.6.0
 openai>=1.0.0
 python-dotenv>=1.0.0
@@ -59,7 +59,7 @@ __pycache__/
 - Copy all files from `synthetic-data/` folder (already written — see that folder)
 - Commit them: `git add synthetic-data/ && git commit -m "feat: add synthetic data"`
 
-### [ ] 1.6 Push skeleton to GitHub
+### [x] 1.6 Push skeleton to GitHub
 
 ```bash
 git remote add origin https://github.com/YOUR_USERNAME/certmind-agent
@@ -72,20 +72,21 @@ git push -u origin main
 
 ## SPRINT 2 — Foundry IQ Knowledge Base + Base Agent (June 5–6)
 
-### [ ] 2.1 Write setup_foundry_iq.py
+### [x] 2.1 Write setup_foundry_iq.py
 
 - Connects to Azure using `DefaultAzureCredential`
-- Uploads the 3 markdown knowledge docs to your Foundry IQ knowledge base
-- Prints confirmation with document IDs
-- 💡 Prompt for Copilot: _"Write a Python script using azure-ai-projects to upload markdown files to a Foundry IQ knowledge base by ID"_
+- Verifies the 3 markdown knowledge docs intended for your Foundry IQ knowledge base
+- Optionally verifies the uploaded blobs in `certmind-docs` when `AZURE_STORAGE_ACCOUNT_URL` is configured
+- Prints confirmation with the configured knowledge base ID
+- 💡 Prompt for Copilot: _"Write a Python script that verifies the three markdown knowledge docs for Foundry IQ ingestion and optionally checks they exist in an Azure Blob container using DefaultAzureCredential."_
 
-### [ ] 2.2 Run setup script and verify in Foundry portal
+### [x] 2.2 Run setup script and verify in Foundry portal
 
 - Run: `python scripts/setup_foundry_iq.py`
 - Check Foundry portal → Knowledge bases → all 3 markdown docs indexed
 - ✅ Gate: Do not proceed until docs are indexed
 
-### [ ] 2.3 Write base_agent.py (shared base class)
+### [x] 2.3 Write base_agent.py (shared base class)
 
 All agents inherit from this. It should:
 
@@ -95,7 +96,7 @@ All agents inherit from this. It should:
 - Include basic error handling and logging
 - 💡 Prompt: _"Write a Python base class for a Microsoft Foundry agent using azure-ai-projects and the GPT-5-mini deployment"_
 
-### [ ] 2.4 Write learning_path_curator.py
+### [x] 2.4 Write learning_path_curator.py
 
 - Inherits from BaseAgent
 - Takes: `learner_role: str`, `certification_target: str`
@@ -105,7 +106,7 @@ All agents inherit from this. It should:
 - Integrate Microsoft Learn MCP server as a tool
 - 💡 Prompt: _"Write a LearningPathCuratorAgent that queries a Foundry IQ knowledge base and requires citations in every response. Also connect to the Microsoft Learn MCP server as an additional tool."_
 
-### [ ] 2.5 Test Learning Path Curator with sample input
+### [x] 2.5 Test Learning Path Curator with sample input
 
 ```python
 curator = LearningPathCuratorAgent()

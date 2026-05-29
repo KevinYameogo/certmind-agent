@@ -82,7 +82,7 @@ certmind-agent/
 │   ├── assessment_agent.py
 │   └── manager_insights.py
 ├── scripts/
-│   ├── setup_foundry_iq.py    # Script to upload knowledge base docs
+│   ├── setup_foundry_iq.py    # Script to verify knowledge base docs
 │   └── evaluate_agents.py     # Evaluation harness
 ├── .env.example
 ├── .gitignore
