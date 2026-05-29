@@ -254,21 +254,21 @@ print(result)
 
 ## SPRINT 7 — Evaluation + Telemetry (June 10–11)
 
-### [ ] 7.1 Write evaluate_agents.py
+### [x] 7.1 Write evaluate_agents.py
 
 - Test cases for each agent with expected output characteristics
 - Scoring rubric: citation present? reasoning steps visible? no hallucinations?
 - Run automated eval across 5 synthetic learner scenarios
 - 💡 Prompt: _"Write an evaluation harness that tests each agent with synthetic input, checks for citations, multi-step reasoning, and no hallucinated exam codes, and outputs a score card"_
 
-### [ ] 7.2 Add OpenTelemetry tracing to all agents
+### [x] 7.2 Add OpenTelemetry tracing to all agents
 
 - Every agent call should emit a trace span
 - Include: agent name, input summary, output summary, latency, any critic rejections
 - Connect to Azure Monitor for cloud observability
 - 💡 Prompt: _"Add OpenTelemetry tracing to all agents using azure-monitor-opentelemetry, emitting spans for each agent invocation with input/output metadata"_
 
-### [ ] 7.3 Add responsible AI guardrails to Orchestrator
+### [x] 7.3 Add responsible AI guardrails to Orchestrator
 
 - Input validation: reject requests with PII or inappropriate content
 - Output validation: flag any response mentioning real company names or real people

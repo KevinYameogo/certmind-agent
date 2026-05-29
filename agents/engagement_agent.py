@@ -28,6 +28,13 @@ class EngagementAgent(BaseAgent):
 
     def run(self, employee_id: str) -> dict[str, Any]:  # type: ignore[override]
         """Return Work IQ-aware engagement recommendations for an employee."""
+        return self.trace_call(
+            "engagement_agent",
+            f"employee_id={employee_id}",
+            lambda: self._run(employee_id=employee_id),
+        )
+
+    def _run(self, employee_id: str) -> dict[str, Any]:
         learner = self._find_learner(employee_id)
         signal = self._find_work_signal(employee_id)
         workload = self._classify_workload(signal)

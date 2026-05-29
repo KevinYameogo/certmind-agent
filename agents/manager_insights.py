@@ -32,6 +32,13 @@ class ManagerInsightsAgent(BaseAgent):
 
     def run(self, employee_ids: list[str] | None = None) -> dict[str, Any]:  # type: ignore[override]
         """Return a privacy-safe manager dashboard summary."""
+        return self.trace_call(
+            "manager_insights",
+            f"employee_count={len(employee_ids) if employee_ids else 'all'}",
+            lambda: self._run(employee_ids=employee_ids),
+        )
+
+    def _run(self, employee_ids: list[str] | None = None) -> dict[str, Any]:
         selected = self._selected_learners(employee_ids)
         plans = [self.planner.run(learner_id=learner["learner_id"]) for learner in selected]
         signals_by_employee = {signal["employee_id"]: signal for signal in self.work_signals}

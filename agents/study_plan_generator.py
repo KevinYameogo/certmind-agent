@@ -34,6 +34,13 @@ class StudyPlanGeneratorAgent(BaseAgent):
 
     def run(self, learner_id: str, certification: str | None = None) -> dict[str, Any]:  # type: ignore[override]
         """Return a structured weekly study plan for a learner and certification."""
+        return self.trace_call(
+            "study_plan_generator",
+            f"learner_id={learner_id}; certification={certification or 'profile-target'}",
+            lambda: self._run(learner_id=learner_id, certification=certification),
+        )
+
+    def _run(self, learner_id: str, certification: str | None = None) -> dict[str, Any]:
         learner = self._find_learner(learner_id)
         target = certification or learner["certification_target"]
         cert = self._find_certification(target)

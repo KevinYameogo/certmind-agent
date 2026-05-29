@@ -32,6 +32,11 @@ DATA_DIR = PROJECT_ROOT / "synthetic-data"
 class OrchestratorAgent(BaseAgent):
     """Plans and executes multi-agent CertMind workflows."""
 
+    BLOCKED_INPUT_TERMS = {"lazy", "stupid", "worthless", "punish", "fire them"}
+    ALLOWED_REAL_ORGS = {"Microsoft", "Azure", "GitHub", "Foundry", "Fabric"}
+    DISALLOWED_REAL_ORGS = {"Google", "Amazon", "Meta", "Apple", "OpenAI", "Anthropic"}
+    DISALLOWED_REAL_PEOPLE = {"Satya Nadella", "Bill Gates", "Elon Musk", "Sam Altman"}
+
     def __init__(self, config: AgentConfig | None = None) -> None:
         super().__init__(config=config)
         self.trace_id = uuid.uuid4().hex[:12]
@@ -47,10 +52,20 @@ class OrchestratorAgent(BaseAgent):
 
     def run(self, request: str) -> dict[str, Any]:  # type: ignore[override]
         """Run a natural-language request through the planner-executor workflow."""
+        guardrail = self._validate_input(request)
+        if guardrail:
+            return self._safety_fallback(guardrail)
+
         plan = self._plan(request)
         if plan["intent"] == "manager_insights":
-            return self._run_manager_workflow(request, plan)
-        return self._run_learner_workflow(request, plan)
+            result = self._run_manager_workflow(request, plan)
+        else:
+            result = self._run_learner_workflow(request, plan)
+
+        output_guardrail = self._validate_output(result)
+        if output_guardrail:
+            return self._safety_fallback(output_guardrail)
+        return result
 
     @staticmethod
     def _load_json(path: Path) -> Any:
@@ -74,6 +89,54 @@ class OrchestratorAgent(BaseAgent):
             "learner_id": learner["learner_id"],
             "employee_id": learner["employee_id"],
             "steps": ["curator", "study_plan", "engagement", "assessment", "critic"],
+        }
+
+    def _validate_input(self, request: str) -> dict[str, Any] | None:
+        lowered = request.lower()
+        if re.search(r"\b[\w.+-]+@[\w-]+\.[\w.-]+\b", request):
+            return {"type": "pii", "reason": "Email addresses should not be included in CertMind prompts."}
+        if re.search(r"\b\d{3}[-.\s]?\d{2}[-.\s]?\d{4}\b", request):
+            return {"type": "pii", "reason": "Government ID-like values are not allowed."}
+        if re.search(r"\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b", request):
+            return {"type": "pii", "reason": "Phone numbers should not be included in CertMind prompts."}
+        if any(term in lowered for term in self.BLOCKED_INPUT_TERMS):
+            return {"type": "inappropriate_content", "reason": "Use work-appropriate language for coaching requests."}
+        return None
+
+    def _validate_output(self, output: dict[str, Any]) -> dict[str, Any] | None:
+        text = json.dumps(output, ensure_ascii=True, default=str)
+        org_hits = [org for org in self.DISALLOWED_REAL_ORGS if re.search(rf"\b{re.escape(org)}\b", text)]
+        person_hits = [
+            person for person in self.DISALLOWED_REAL_PEOPLE if re.search(rf"\b{re.escape(person)}\b", text)
+        ]
+        if org_hits or person_hits:
+            return {
+                "type": "output_validation",
+                "reason": "Output mentioned a real external company or person not needed for this synthetic demo.",
+                "organizations": org_hits,
+                "people": person_hits,
+            }
+        return None
+
+    def _safety_fallback(self, guardrail: dict[str, Any]) -> dict[str, Any]:
+        trace_entry = {
+            "trace_id": self.trace_id,
+            "span": "responsible_ai_guardrail",
+            "status": "blocked",
+            "latency_ms": 0,
+            "output_summary": guardrail["reason"],
+        }
+        self.trace.append(trace_entry)
+        return {
+            "trace_id": self.trace_id,
+            "critic_approved": False,
+            "critic_issues": [guardrail["reason"]],
+            "result": {
+                "blocked": True,
+                "message": "I can help with certification planning using synthetic, work-safe data. Remove personal or inappropriate details and try again.",
+                "guardrail": guardrail,
+            },
+            "trace": self.trace,
         }
 
     @staticmethod

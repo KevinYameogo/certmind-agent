@@ -38,6 +38,18 @@ class AssessmentAgent(BaseAgent):
         answers: dict[str, str] | None = None,
     ) -> dict[str, Any]:  # type: ignore[override]
         """Generate a cited quiz and evaluate readiness for the learner."""
+        return self.trace_call(
+            "assessment_agent",
+            f"learner_id={learner_id}; certification={certification or 'profile-target'}; answers={bool(answers)}",
+            lambda: self._run(learner_id=learner_id, certification=certification, answers=answers),
+        )
+
+    def _run(
+        self,
+        learner_id: str,
+        certification: str | None = None,
+        answers: dict[str, str] | None = None,
+    ) -> dict[str, Any]:
         learner = self._find_learner(learner_id)
         cert = self._find_certification(certification or learner["certification_target"])
         questions = self._generate_questions(cert)

@@ -29,6 +29,13 @@ class LearningPathCuratorAgent(BaseAgent):
 
     def run(self, role: str, target: str) -> str:  # type: ignore[override]
         """Return a cited learning path for a learner role and certification target."""
+        return self.trace_call(
+            "learning_path_curator",
+            f"role={role}; target={target}",
+            lambda: self._run(role=role, target=target),
+        )
+
+    def _run(self, role: str, target: str) -> str:
         context = self._retrieve_local_context(role=role, target=target)
         prompt = self._build_prompt(role=role, target=target, context=context)
 

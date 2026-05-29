@@ -29,6 +29,13 @@ class CriticVerifierAgent(BaseAgent):
 
     def review(self, original_question: str, agent_output: Any) -> dict[str, Any]:
         """Return a structured verdict for another agent's output."""
+        return self.trace_call(
+            "critic_verifier",
+            f"question={original_question}",
+            lambda: self._review(original_question=original_question, agent_output=agent_output),
+        )
+
+    def _review(self, original_question: str, agent_output: Any) -> dict[str, Any]:
         output_text = self._to_text(agent_output)
         issues: list[str] = []
 

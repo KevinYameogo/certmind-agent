@@ -4,8 +4,12 @@ from __future__ import annotations
 
 import logging
 import os
+import json
+import time
 from dataclasses import dataclass
-from typing import Optional
+from typing import Any, Callable, Optional
+
+from opentelemetry import trace
 
 try:
     from dotenv import load_dotenv
@@ -27,6 +31,27 @@ except ImportError:  # pragma: no cover - supports running before deps are insta
 load_dotenv()
 
 LOGGER = logging.getLogger(__name__)
+_AZURE_MONITOR_CONFIGURED = False
+
+
+def configure_observability() -> None:
+    """Configure Azure Monitor OpenTelemetry when a connection string is present."""
+    global _AZURE_MONITOR_CONFIGURED
+    if _AZURE_MONITOR_CONFIGURED:
+        return
+
+    connection_string = os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING", "")
+    if not connection_string:
+        return
+
+    try:
+        from azure.monitor.opentelemetry import configure_azure_monitor
+    except ImportError:
+        LOGGER.warning("azure-monitor-opentelemetry is not installed; telemetry export disabled.")
+        return
+
+    configure_azure_monitor(connection_string=connection_string)
+    _AZURE_MONITOR_CONFIGURED = True
 
 
 @dataclass(frozen=True)
@@ -58,9 +83,11 @@ class BaseAgent:
     """Base class for agents that can call Microsoft Foundry when configured."""
 
     def __init__(self, config: Optional[AgentConfig] = None) -> None:
+        configure_observability()
         self.config = config or AgentConfig.from_env()
         self._project_client = None
         self._openai_client = None
+        self.tracer = trace.get_tracer(f"certmind.{self.__class__.__name__}")
 
     @property
     def project_client(self):
@@ -132,3 +159,45 @@ class BaseAgent:
     def has_citation(text: str) -> bool:
         """Return True when an answer contains markdown-style source citations."""
         return "[source:" in text.lower()
+
+    def trace_call(
+        self,
+        agent_name: str,
+        input_summary: str,
+        callback: Callable[[], Any],
+    ) -> Any:
+        """Trace one agent invocation with local and Azure Monitor-compatible metadata."""
+        start = time.perf_counter()
+        with self.tracer.start_as_current_span(agent_name) as span:
+            span.set_attribute("certmind.agent", agent_name)
+            span.set_attribute("certmind.input_summary", input_summary[:500])
+            try:
+                output = callback()
+                status = "ok"
+                span.set_attribute("certmind.output_summary", self.summarize_output(output))
+                span.set_attribute("certmind.status", status)
+                if isinstance(output, dict) and "critic_verdict" in output:
+                    verdict = output["critic_verdict"]
+                    span.set_attribute("certmind.critic_approved", bool(verdict.get("approved")))
+                    span.set_attribute("certmind.critic_issue_count", len(verdict.get("issues", [])))
+                return output
+            except Exception as exc:
+                status = "error"
+                span.set_attribute("certmind.status", status)
+                span.record_exception(exc)
+                raise
+            finally:
+                latency_ms = round((time.perf_counter() - start) * 1000, 2)
+                span.set_attribute("certmind.latency_ms", latency_ms)
+
+    @staticmethod
+    def summarize_output(output: Any) -> str:
+        """Return a compact output summary suitable for trace attributes."""
+        if isinstance(output, str):
+            return output.splitlines()[0][:200] if output else ""
+        if isinstance(output, dict):
+            summary = {key: output[key] for key in list(output.keys())[:6]}
+            return json.dumps(summary, ensure_ascii=True, default=str)[:500]
+        if isinstance(output, list):
+            return f"list[{len(output)}]"
+        return type(output).__name__
