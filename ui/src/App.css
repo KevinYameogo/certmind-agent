@@ -1,0 +1,112 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 16px;
+  gap: 16px;
+}
+
+.sidebar-section {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.top-row {
+  display: flex;
+  height: 50%;
+  gap: 16px;
+}
+
+.diagram-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.trace-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-row {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Common glass panel style */
+.glass-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--bg-panel-border);
+  border-radius: 12px;
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+}
+
+/* Active Request Banner */
+.request-banner {
+  display: flex;
+  align-items: center;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  gap: 16px;
+  animation: slide-in-top 0.3s ease-out;
+}
+
+@keyframes slide-in-top {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.request-banner-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-blue);
+  background: rgba(59, 130, 246, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.request-banner-text {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-style: italic;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.request-banner-running {
+  font-size: 0.8rem;
+  color: var(--accent-yellow);
+  font-weight: 600;
+  animation: pulse-opacity 2s infinite;
+  white-space: nowrap;
+}

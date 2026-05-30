@@ -1,0 +1,153 @@
+.arch-diagram {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.diagram-header h2 {
+  margin: 0 0 20px 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pipeline-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 120px;
+  height: 100px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.node-icon {
+  font-size: 2rem;
+}
+
+.node-label {
+  font-size: 0.75rem;
+  text-align: center;
+  font-weight: 500;
+  color: var(--text-main);
+  padding: 0 4px;
+}
+
+.orchestrator-node {
+  border-color: var(--accent-magenta);
+  background: rgba(255, 0, 255, 0.05);
+}
+
+.orchestrator-node.active {
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+}
+
+.pipeline-track {
+  display: flex;
+  align-items: center;
+}
+
+.pipeline-step {
+  display: flex;
+  align-items: center;
+}
+
+.connection-line {
+  height: 2px;
+  width: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.connection-line.active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.particle {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-yellow);
+  animation: flow-particle 1s infinite linear;
+}
+
+/* Node States */
+.state-idle {
+  opacity: 0.6;
+}
+
+.state-running {
+  border-color: var(--accent-yellow);
+  background: rgba(252, 211, 77, 0.05);
+}
+
+.state-running.pulse {
+  animation: pulse-border 1.5s infinite;
+}
+
+.state-done {
+  border-color: var(--accent-green);
+  background: rgba(52, 211, 153, 0.05);
+}
+
+.state-error {
+  border-color: var(--accent-red);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.status-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.status-badge.check {
+  background: var(--accent-green);
+}
+
+.status-badge.cross {
+  background: var(--accent-red);
+}
+
+.spinner-ring {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  border-top-color: var(--accent-yellow);
+  animation: spin 1s infinite linear;
+}

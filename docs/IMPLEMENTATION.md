@@ -386,19 +386,21 @@ The official AZD hosted-agent path above is preferred. If AZD hosted-agent deplo
 
 ## SPRINT 9 — Polish + Demo (June 12–14)
 
-### [ ] 9.1 Add rich terminal UI for demo
+### [x] 9.1 Add rich terminal UI for demo
 
 - Use the `rich` library to pretty-print agent steps
 - Show a live "reasoning trace" as the orchestrator dispatches sub-agents
 - This makes your demo video dramatically more compelling
 
-### [ ] 9.2 Write a demo script
+### [x] 9.2 Build React UI Demo
 
-- A scripted walkthrough covering all 3 user scenarios:
-  1. Individual learner requesting study plan
-  2. Learner taking assessment and failing → loops back
-  3. Manager requesting team readiness summary
-- Each scenario shows different agents activating
+- Built a full FastAPI + React browser dashboard (`ui/src/`) featuring SSE streaming and a dark glassmorphism aesthetic.
+- Interactive side panel with 4 core demo scenarios + custom requests:
+  1. **Scenario 1**: Learner taking assessment and failing → loops back
+  2. **Scenario 2**: Learner taking assessment and passing → exam ready
+  3. **Scenario 3**: Manager requesting team readiness summary (privacy compliant)
+  4. **Scenario 4**: Responsible AI Guardrail Triggered 🛡️ (blocks inappropriate input)
+- `demo_full.py` script provides the exact same 4 scenarios in the terminal via an interactive menu.
 
 ### [ ] 9.3 Record demo video
 
