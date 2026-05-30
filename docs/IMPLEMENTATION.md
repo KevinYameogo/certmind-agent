@@ -291,7 +291,7 @@ COPY synthetic-data/ ./synthetic-data/
 CMD ["python", "agents/orchestrator.py"]
 ```
 
-### [ ] 8.2 Build and push to Azure Container Registry
+### [x] 8.2 Build and push to Azure Container Registry
 
 ```bash
 az acr build --registry certmindacr --image certmind-agent:latest .
