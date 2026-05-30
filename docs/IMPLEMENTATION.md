@@ -279,7 +279,7 @@ print(result)
 
 ## SPRINT 8 — Hosted Agent Deployment (June 11–12)
 
-### [ ] 8.1 Install AZD hosted-agent prerequisites
+### [x] 8.1 Install AZD hosted-agent prerequisites
 
 - Install **Azure Developer CLI (AZD) 1.25.0 or later**
 - Install the hosted-agent extension:
@@ -294,7 +294,7 @@ azd auth login
 - Confirm you have **Foundry Project Manager** at project scope
 - If AZD/Toolkit will create/assign resources, confirm you also have subscription **Owner** or **User Access Administrator**, or ask an admin to grant the required roles
 
-### [ ] 8.2 Scaffold hosted agent project with AZD
+### [x] 8.2 Scaffold hosted agent project with AZD
 
 Use an empty scaffold directory:
 
@@ -320,6 +320,12 @@ After scaffolding, adapt the generated handler to call this repo's bridge:
 
 ```python
 from agents.hosted_entrypoint import run_certmind_request
+```
+
+Current scaffold path:
+
+```text
+certmind-orchestrator/agent-framework-agent-basic-invocations
 ```
 
 ### [ ] 8.3 Provision, run locally, and deploy with AZD
