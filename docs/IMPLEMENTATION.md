@@ -279,7 +279,7 @@ print(result)
 
 ## SPRINT 8 — Hosted Agent Deployment (June 11–12)
 
-### [ ] 8.1 Write Dockerfile for Orchestrator agent
+### [x] 8.1 Write Dockerfile for Orchestrator agent
 
 ```dockerfile
 FROM python:3.11-slim
@@ -297,6 +297,14 @@ CMD ["python", "agents/orchestrator.py"]
 az acr build --registry certmindacr --image certmind-agent:latest .
 ```
 
+If ACR Tasks are not permitted, run:
+
+```bash
+bash scripts/deploy_acr.sh
+```
+
+The helper falls back to `az acr login`, `docker build`, and `docker push`.
+
 ### [ ] 8.3 Deploy as Hosted Agent in Foundry Agent Service
 
 - In Foundry portal → Hosted Agents → New hosted agent
@@ -309,6 +317,7 @@ az acr build --registry certmindacr --image certmind-agent:latest .
 
 - Get the hosted agent endpoint URL from Foundry portal
 - Test with curl or a simple Python client
+- Or run: `CERTMIND_HOSTED_AGENT_ENDPOINT=<endpoint> .venv/bin/python scripts/test_hosted_agent.py`
 - Verify it returns the same results as local
   ✅ **Sprint 8 done when**: Live hosted endpoint responds correctly
 
