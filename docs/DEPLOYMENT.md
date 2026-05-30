@@ -1,61 +1,171 @@
 # CertMind Sprint 8 Deployment
 
-## Build and Push Image
+## Preferred Path: AZD Hosted Agents
 
-Use Azure Container Registry Tasks so the image builds in Azure and is pushed to ACR automatically:
+The preferred deployment path uses the new Foundry hosted-agent backend through Azure Developer CLI (AZD) and the `azure.ai.agents` extension. This replaces the older/manual Docker-first plan.
+
+Official hosted-agent quickstart flow:
+
+1. Scaffold a hosted agent project.
+2. Test locally.
+3. Deploy to Foundry Agent Service.
+4. Chat with the agent in the playground.
+5. Clean up resources when done.
+
+## Prerequisites
+
+Install:
+
+- Python 3.13 or later
+- Git
+- Azure Developer CLI 1.25.0 or later
+- `azd ai agent` extension `0.1.34-preview` or later
+
+Check your machine:
 
 ```bash
-az acr build --registry certmindacr --image certmind-agent:latest .
+bash scripts/check_hosted_agent_prereqs.sh
 ```
 
-If ACR Tasks are not enabled for the registry/subscription, use the helper script. It falls back to a local Docker build and push:
+Install and sign in:
 
 ```bash
-bash scripts/deploy_acr.sh
+azd ext install azure.ai.agents
+azd ext list
+azd auth login
 ```
 
-Expected image:
+Permissions:
+
+- **Foundry Project Manager** at project scope is required to create and deploy hosted agents.
+- If AZD or the VS Code extension must assign ACR pull/managed-identity roles automatically, you also need subscription **Owner** or **User Access Administrator**.
+- If you do not have subscription-level role-assignment permission, ask an admin to grant the hosted-agent roles from the permissions reference.
+
+## 1. Scaffold Hosted Agent Project
+
+Use an empty scaffold directory:
+
+```bash
+mkdir certmind-orchestrator
+cd certmind-orchestrator
+azd ai agent init
+```
+
+Choose:
 
 ```text
-certmindacr.azurecr.io/certmind-agent:latest
+Language: Python
+Starter template: Basic agent (Responses, Agent Framework, Python)
+Agent name: default agent-framework-agent-basic-responses
+Deployment type: Container deploy
+Runtime: Python 3.13
+Entry point: default main.py
+Dependency resolution: Remote build
+Foundry Project: use existing certmind-agent1 unless intentionally creating a new project
+Model deployment: use existing gpt-5-mini if available
 ```
 
-## Foundry Hosted Agent Setup
+## 2. Wire CertMind Orchestrator Into the Scaffold
 
-Before creating the hosted agent, grant the Foundry project managed identity pull access to ACR.
+After the scaffold is created, keep the generated protocol and deployment files. Adapt the generated handler/body to call this repo's bridge:
 
-1. In Azure AI Foundry, open the project resource.
-2. Go to **Identity** and copy the system-assigned managed identity Object ID.
-3. In Azure Container Registry `certmindacr`, go to **Access control (IAM)**.
-4. Assign the managed identity the **Container Registry Repository Reader** role.
-5. In Foundry Agent Service, create a hosted agent that points to:
+```python
+from agents.hosted_entrypoint import run_certmind_request
 
-```text
-certmindacr.azurecr.io/certmind-agent:latest
+result = run_certmind_request("I'm a Cloud Engineer and I want to get AZ-204 certified")
 ```
 
-Set runtime environment variables from `.env`; do not paste secrets into source files.
+Depending on where the scaffold is created, either:
 
-## Local Container Smoke Test
+- copy this repo's `agents/`, `synthetic-data/`, `docs/fabric_iq_ontology.json`, and `requirements.txt` into the scaffold, or
+- create the scaffold inside this repo and adjust imports so `agents.hosted_entrypoint` is importable.
 
-If Docker is available locally:
+## 3. Provision Resources
+
+From the scaffold directory:
 
 ```bash
-docker build -t certmind-agent:local .
-docker run --rm --env-file .env certmind-agent:local
+azd provision
 ```
 
-Expected behavior: the container prints the same orchestrator JSON produced by:
+This creates or connects the hosted-agent resources declared in `azure.yaml`.
+
+## 4. Test Locally
+
+Start the local hosted agent:
 
 ```bash
-.venv/bin/python agents/orchestrator.py
+azd ai agent run
 ```
 
-## Hosted Endpoint Smoke Test
+In a second terminal:
 
-After the hosted agent exists in Foundry, set the endpoint URL and run:
+```bash
+azd ai agent invoke --local "I'm a Cloud Engineer and I want to get AZ-204 certified"
+```
+
+## 5. Deploy
+
+From the scaffold directory:
+
+```bash
+azd deploy
+```
+
+When deployment finishes, AZD prints the hosted-agent playground link and endpoint.
+
+Check status:
+
+```bash
+azd ai agent show
+```
+
+Expected status: `Active`.
+
+## 6. Test Deployed Agent
+
+Use AZD:
+
+```bash
+azd ai agent invoke "I'm a Cloud Engineer and I want to get AZ-204 certified"
+```
+
+Or use this repo's endpoint smoke test:
 
 ```bash
 export CERTMIND_HOSTED_AGENT_ENDPOINT="https://YOUR-HOSTED-AGENT-ENDPOINT"
 .venv/bin/python scripts/test_hosted_agent.py
 ```
+
+You can also test in Foundry portal:
+
+```text
+Build -> Agents -> Open in playground
+```
+
+## Optional Monitoring
+
+Stream hosted-agent logs:
+
+```bash
+azd ai agent monitor --follow
+```
+
+The platform injects the Application Insights connection string into the container. OpenTelemetry traces appear in the provisioned Application Insights resource under **Investigate > Transaction search** or **Performance**.
+
+## Optional Legacy Fallback: Manual Docker / ACR
+
+The official AZD hosted-agent flow above is preferred. This repo still includes a manual container fallback:
+
+```bash
+bash scripts/deploy_acr.sh
+```
+
+Previously pushed image:
+
+```text
+certmindacr.azurecr.io/certmind-agent:latest
+sha256:deaa422706548d35d284926a2f18dbb96b76a2e36e427393035f46ddc5dd97f6
+```
+
+Use this only if AZD hosted-agent deployment is blocked.

@@ -279,47 +279,102 @@ print(result)
 
 ## SPRINT 8 — Hosted Agent Deployment (June 11–12)
 
-### [x] 8.1 Write Dockerfile for Orchestrator agent
+### [ ] 8.1 Install AZD hosted-agent prerequisites
 
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY agents/ ./agents/
-COPY synthetic-data/ ./synthetic-data/
-CMD ["python", "agents/orchestrator.py"]
-```
-
-### [x] 8.2 Build and push to Azure Container Registry
+- Install **Azure Developer CLI (AZD) 1.25.0 or later**
+- Install the hosted-agent extension:
 
 ```bash
-az acr build --registry certmindacr --image certmind-agent:latest .
+azd ext install azure.ai.agents
+azd ext list
+azd auth login
 ```
 
-If ACR Tasks are not permitted, run:
+- Confirm `azure.ai.agents` is `0.1.34-preview` or later
+- Confirm you have **Foundry Project Manager** at project scope
+- If AZD/Toolkit will create/assign resources, confirm you also have subscription **Owner** or **User Access Administrator**, or ask an admin to grant the required roles
+
+### [ ] 8.2 Scaffold hosted agent project with AZD
+
+Use an empty scaffold directory:
 
 ```bash
-bash scripts/deploy_acr.sh
+mkdir certmind-orchestrator
+cd certmind-orchestrator
+azd ai agent init
 ```
 
-The helper falls back to `az acr login`, `docker build`, and `docker push`.
+Use these options:
 
-### [ ] 8.3 Deploy as Hosted Agent in Foundry Agent Service
+- Language: `Python`
+- Starter template: `Basic agent (Responses, Agent Framework, Python)`
+- Agent name: default `agent-framework-agent-basic-responses`
+- Deployment type: `Container deploy`
+- Runtime: `Python 3.13`
+- Entry point: default `main.py`
+- Dependency resolution: `Remote build`
+- Foundry Project: use existing `certmind-agent1` unless intentionally creating a new project
+- Model deployment: use existing `gpt-5-mini` unless the scaffold requires its default model temporarily
 
-- In Foundry portal → Hosted Agents → New hosted agent
-- Point to your ACR image
-- Assign Managed Identity
-- Set environment variables (from .env — not hardcoded)
-- ✅ Gate: Manual step — see MANUAL_STEPS.md step 9
+After scaffolding, adapt the generated handler to call this repo's bridge:
+
+```python
+from agents.hosted_entrypoint import run_certmind_request
+```
+
+### [ ] 8.3 Provision, run locally, and deploy with AZD
+
+Provision resources:
+
+```bash
+azd provision
+```
+
+Run locally:
+
+```bash
+azd ai agent run
+```
+
+In another terminal:
+
+```bash
+azd ai agent invoke --local "I'm a Cloud Engineer and I want to get AZ-204 certified"
+```
+
+Deploy:
+
+```bash
+azd deploy
+```
+
+Check hosted-agent status:
+
+```bash
+azd ai agent show
+```
 
 ### [ ] 8.4 Test deployed endpoint
 
-- Get the hosted agent endpoint URL from Foundry portal
-- Test with curl or a simple Python client
+- Use AZD:
+
+```bash
+azd ai agent invoke "I'm a Cloud Engineer and I want to get AZ-204 certified"
+```
+
+- Or get the hosted agent endpoint from `azd deploy` output
+- Test in the Foundry hosted-agent playground
 - Or run: `CERTMIND_HOSTED_AGENT_ENDPOINT=<endpoint> .venv/bin/python scripts/test_hosted_agent.py`
 - Verify it returns the same results as local
   ✅ **Sprint 8 done when**: Live hosted endpoint responds correctly
+
+### Optional legacy fallback: manual Docker / ACR deployment
+
+The official AZD hosted-agent path above is preferred. If AZD hosted-agent deployment is blocked, this repo also includes a manual Docker fallback:
+
+- `Dockerfile`
+- `scripts/deploy_acr.sh`
+- `certmindacr.azurecr.io/certmind-agent:latest`
 
 ---
 
