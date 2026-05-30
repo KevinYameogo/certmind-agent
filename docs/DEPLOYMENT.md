@@ -101,7 +101,7 @@ azd ai agent run
 In a second terminal:
 
 ```bash
-azd ai agent invoke --local "I'm a Cloud Engineer and I want to get AZ-204 certified"
+azd ai agent invoke --local '{"message": "I'\''m a Cloud Engineer and I want to get AZ-204 certified"}'
 ```
 
 ## 5. Deploy
@@ -127,7 +127,7 @@ Expected status: `Active`.
 Use AZD:
 
 ```bash
-azd ai agent invoke "I'm a Cloud Engineer and I want to get AZ-204 certified"
+azd ai agent invoke '{"message": "I'\''m a Cloud Engineer and I want to get AZ-204 certified"}'
 ```
 
 Or use this repo's endpoint smoke test:

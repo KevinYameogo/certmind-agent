@@ -4,7 +4,12 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from collections.abc import AsyncGenerator
+
+# Ensure this script's directory is on the path so `agents/` is importable
+# regardless of the working directory azd uses when launching the process.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from azure.ai.agentserver.invocations import InvocationAgentServerHost
 from dotenv import load_dotenv

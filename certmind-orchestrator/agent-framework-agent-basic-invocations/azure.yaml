@@ -9,8 +9,6 @@ services:
         project: src/agent-framework-agent-basic-invocations
         host: azure.ai.agent
         language: docker
-        docker:
-            remoteBuild: true
         config:
             container:
                 resources:

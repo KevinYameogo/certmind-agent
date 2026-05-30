@@ -8,6 +8,8 @@ import sys
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from azure.identity import DefaultAzureCredential
+
 
 def main() -> None:
     endpoint = os.getenv("CERTMIND_HOSTED_AGENT_ENDPOINT")
@@ -15,12 +17,20 @@ def main() -> None:
         raise SystemExit("Set CERTMIND_HOSTED_AGENT_ENDPOINT to the hosted agent endpoint URL.")
 
     payload = {
-        "input": "I'm a Cloud Engineer and I want to get AZ-204 certified",
+        "message": "I'm a Cloud Engineer and I want to get AZ-204 certified",
     }
+    print("Getting authentication token...")
+    credential = DefaultAzureCredential()
+    token = credential.get_token("https://ml.azure.com/.default").token
+
     request = Request(
         endpoint,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "Foundry-Features": "HostedAgents=V1Preview",
+            "Authorization": f"Bearer {token}",
+        },
         method="POST",
     )
 

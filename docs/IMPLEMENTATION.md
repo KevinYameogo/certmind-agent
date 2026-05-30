@@ -328,7 +328,7 @@ Current scaffold path:
 certmind-orchestrator/agent-framework-agent-basic-invocations
 ```
 
-### [ ] 8.3 Provision, run locally, and deploy with AZD
+### [x] 8.3 Provision, run locally, and deploy with AZD
 
 Provision resources:
 
@@ -345,7 +345,7 @@ azd ai agent run
 In another terminal:
 
 ```bash
-azd ai agent invoke --local "I'm a Cloud Engineer and I want to get AZ-204 certified"
+azd ai agent invoke --local '{"message": "I'\''m a Cloud Engineer and I want to get AZ-204 certified"}'
 ```
 
 Deploy:
@@ -360,12 +360,12 @@ Check hosted-agent status:
 azd ai agent show
 ```
 
-### [ ] 8.4 Test deployed endpoint
+### [x] 8.4 Test deployed endpoint
 
 - Use AZD:
 
 ```bash
-azd ai agent invoke "I'm a Cloud Engineer and I want to get AZ-204 certified"
+azd ai agent invoke '{"message": "I'\''m a Cloud Engineer and I want to get AZ-204 certified"}'
 ```
 
 - Or get the hosted agent endpoint from `azd deploy` output
