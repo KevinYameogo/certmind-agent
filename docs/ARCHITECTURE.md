@@ -1,6 +1,6 @@
 # 🏗️ ARCHITECTURE.md — CertMind Agent System Design
 
-> Full context for AI-assisted development. Read this before vibe-coding any agent.
+> Full context for AI-assisted development
 
 ---
 
@@ -99,7 +99,7 @@ The system implements three Microsoft IQ intelligence layers, a Critic/Verifier 
   "certification": "AZ-204",
   "meeting_hours_per_week": 22,
   "focus_hours_per_week": 10,
-  "target_exam_date": "2026-07-15"
+  "target_exam_date": "2027-07-15"
 }
 ```
 
@@ -395,7 +395,7 @@ synthetic-data/
 
 | Component      | Technology                                    |
 | -------------- | --------------------------------------------- |
-| Model          | GPT-5-mini via Microsoft Foundry                  |
+| Model          | GPT-5-mini via Microsoft Foundry              |
 | Agent SDK      | azure-ai-projects + Microsoft Agent Framework |
 | Grounding      | Foundry IQ (Azure AI Search backend)          |
 | Semantic layer | Fabric IQ                                     |
@@ -414,7 +414,7 @@ synthetic-data/
 | Variable                                | Used By                            |
 | --------------------------------------- | ---------------------------------- |
 | `AZURE_AI_PROJECT_ENDPOINT`             | All agents (Foundry connection)    |
-| `AZURE_AI_MODEL_DEPLOYMENT`             | All agents (= `GPT-5-mini`)            |
+| `AZURE_AI_MODEL_DEPLOYMENT`             | All agents (= `GPT-5-mini`)        |
 | `FOUNDRY_IQ_KNOWLEDGE_BASE_ID`          | Curator, Assessment, Critic agents |
 | `MICROSOFT_LEARN_MCP_URL`               | Learning Path Curator              |
 | `AZURE_SUBSCRIPTION_ID`                 | Fabric IQ connection               |

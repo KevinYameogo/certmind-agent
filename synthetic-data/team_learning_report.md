@@ -4,9 +4,9 @@
 
 ---
 
-## Q1 2026 Engineering Team Certification Summary
+## Q1 Engineering Team Certification Summary
 
-**Period**: January–March 2026
+**Period**: January–March
 **Teams Covered**: Cloud Engineering, DevOps, Data Engineering, Security
 
 ### Overall Metrics
@@ -44,7 +44,7 @@
 | AZ-305        | 2        | 1      | 28 hours        | 71%                |
 | AZ-500        | 1        | 1      | 24 hours        | 79%                |
 
-### Recommendations for Q2
+### Recommendations for Next Quarter
 
 1. Enforce practice score gate of 75% before allowing exam bookings
 2. Flag learners with >20 meeting hours for workload review before certification programmes

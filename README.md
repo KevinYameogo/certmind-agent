@@ -5,6 +5,8 @@
 [![Hackathon](https://img.shields.io/badge/Agents%20League-2026-blue)](https://aka.ms/agentsleague)
 [![Track](https://img.shields.io/badge/Track-Reasoning%20Agents-purple)](https://aka.ms/agentsleague)
 [![Microsoft Foundry](https://img.shields.io/badge/Built%20with-Microsoft%20Foundry-0078D4)](https://azure.microsoft.com/products/foundry)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB)](https://reactjs.org/)
 
 ---
 
@@ -64,16 +66,15 @@ certmind-agent/
 ├── README.md
 ├── docs/
 │   ├── ARCHITECTURE.md        # Full system diagram + agent flow
-│   ├── IMPLEMENTATION.md      # Step-by-step build checklist
-│   └── MANUAL_STEPS.md        # Human steps (Azure setup, portal config, etc.)
-├── synthetic-data/
+│   ├── MANUAL_STEPS.md        # Azure setup guide
+│   ├── DEPLOYMENT.md          # Deployment instructions
+│   └── IMPLEMENTATION.md      # Development guide
+├── synthetic-data/             # Synthetic training data
 │   ├── learner_profiles.json
 │   ├── work_signals.json
 │   ├── certification_catalog.json
-│   ├── cert_guide.md          # Synthetic knowledge doc for Foundry IQ
-│   ├── team_learning_report.md
-│   └── workload_insights.md
-├── agents/
+│   └── cert_guide.md
+├── agents/                     # Multi-agent system
 │   ├── orchestrator.py
 │   ├── learning_path_curator.py
 │   ├── study_plan_generator.py
@@ -81,9 +82,12 @@ certmind-agent/
 │   ├── critic_verifier.py
 │   ├── assessment_agent.py
 │   └── manager_insights.py
-├── scripts/
-│   ├── setup_foundry_iq.py    # Script to verify knowledge base docs
-│   └── evaluate_agents.py     # Evaluation harness
+├── scripts/                    # Demo and utility scripts
+│   ├── demo.py
+│   ├── demo_full.py
+│   └── ui_server.py
+├── ui/                         # React web interface
+│   └── src/
 ├── .env.example
 ├── .gitignore
 └── requirements.txt
@@ -96,27 +100,72 @@ certmind-agent/
 ### Prerequisites
 
 - Python 3.11+
-- Azure subscription (free trial works — $200 credit covers GPT-5-mini usage)
-- Microsoft Foundry project created
-- VS Code + GitHub Copilot
+- Node.js 18+ (for Web UI)
+- Azure subscription with Microsoft Foundry access
 
-### Installation
+### Initial Setup
+
+**For first-time setup with Azure integration**, follow these guides:
+
+1. [`docs/MANUAL_STEPS.md`](docs/MANUAL_STEPS.md) - Azure account and Foundry setup
+2. [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) - Deployment to Foundry Agent Service (optional)
+
+### Quick Start (Local Demo)
 
 ```bash
+# Clone the repository
 git clone https://github.com/YOUR_USERNAME/certmind-agent
 cd certmind-agent
+
+# Set up Python environment
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+
+# Configure environment (optional for demo mode)
 cp .env.example .env
-# Fill in your Azure credentials in .env
+# Edit .env with your Azure credentials for live API integration
+# Or leave as-is to run in demo mode with synthetic data
 ```
 
-### Run the Orchestrator
+### Running the Demos
+
+**Option 1: Simple Terminal Demo**
 
 ```bash
-python agents/orchestrator.py
+source .venv/bin/activate
+python scripts/demo.py
 ```
+
+**Option 2: Full Terminal Demo (4 Scenarios)**
+
+```bash
+source .venv/bin/activate
+python scripts/demo_full.py
+# Choose "A" to run all scenarios sequentially
+```
+
+**Option 3: Web UI Demo** (Recommended)
+
+```bash
+# Build the React UI (first time only)
+cd ui
+npm install
+npm run build
+cd ..
+
+# Start the server
+source .venv/bin/activate
+python scripts/ui_server.py
+
+# Open browser to: http://localhost:8080
+```
+
+### What Each Demo Shows
+
+- **Terminal Demo**: Single learner scenario with live agent visualization
+- **Full Demo**: 4 scenarios including feedback loops, manager dashboard, and AI guardrails
+- **Web UI**: Interactive interface with real-time agent execution and beautiful visualizations
 
 ---
 
@@ -140,37 +189,38 @@ All datasets are clearly fictional. See [`synthetic-data/`](synthetic-data/) for
 
 ---
 
-## 🎥 Demo
+## 🎥 Demo Video
 
-> Video walkthrough coming — recorded before June 14, 2026 submission deadline.
+Watch the full demo showcasing the multi-agent system in action:
 
-The demo shows:
+> **📹 [Watch Demo Video](https://github.com/KevinYameogo/certmind-agent/raw/main/public/Screen%20Recording%202026-06-28%20at%205.44.13%20PM.mov)**
+> 
+> *For inline viewing: After pushing to GitHub, create an issue and drag-and-drop the video file. GitHub will host it and you can embed that URL here.*
+
+**What you'll see:**
 
 1. A learner requesting a certification study plan
 2. Orchestrator decomposing the task across all agents
-3. Foundry IQ returning cited learning resources
-4. Work IQ adapting the schedule to the learner's meeting load
+3. Live agent execution with real-time status updates
+4. Microsoft IQ layers integration (Foundry + Work + Fabric)
 5. Assessment Agent generating grounded quiz questions
-6. Manager Insights Agent summarising team readiness
+6. Manager Insights Agent providing team readiness analytics
+7. Responsible AI guardrails in action
 
 ---
-
-## 📋 Submission Checklist
-
-- [ ] Multi-agent system aligned to challenge scenario
-- [ ] Microsoft Foundry (SDK) used for orchestration
-- [ ] All 3 Microsoft IQ layers integrated
-- [ ] Multi-step reasoning demonstrated end-to-end
-- [ ] Microsoft Learn MCP Server integrated
-- [ ] Critic/Verifier reasoning pattern implemented
-- [ ] Hosted Agent deployment on Foundry Agent Service
-- [ ] Synthetic data only — no PII
-- [ ] Public repo with this README
-- [ ] Demo video recorded
-- [ ] Telemetry and evaluation implemented
 
 ---
 
 ## 🏆 Track
 
 **Reasoning Agents** — Agents League Hackathon @ AISF 2026, hosted by Microsoft
+
+---
+
+## 🤝 Contributing
+
+This project was built for Microsoft's Agents League Hackathon. Feel free to fork and extend it for your own use cases!
+
+## 📄 License
+
+MIT License - see LICENSE file for details
