@@ -193,9 +193,9 @@ All datasets are clearly fictional. See [`synthetic-data/`](synthetic-data/) for
 
 Watch the full demo showcasing the multi-agent system in action:
 
-> **📹 [Watch Demo Video](https://github.com/KevinYameogo/certmind-agent/raw/main/public/Screen%20Recording%202026-06-28%20at%205.44.13%20PM.mov)**
-> 
-> *For inline viewing: After pushing to GitHub, create an issue and drag-and-drop the video file. GitHub will host it and you can embed that URL here.*
+[![CertMind Demo](https://img.youtube.com/vi/Msya-lIU-B8/maxresdefault.jpg)](https://youtu.be/Msya-lIU-B8)
+
+**👉 [Watch Full Demo on YouTube](https://youtu.be/Msya-lIU-B8)**
 
 **What you'll see:**
 
